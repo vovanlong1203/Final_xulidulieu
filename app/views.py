@@ -17,14 +17,14 @@ def index(request):
 def predict(request):
     if request.method == 'POST':
         # Lấy dữ liệu từ yêu cầu POST
-        input_data = request.POST.get('input_data')
-
+        abstract = request.POST.get('abstract')
+        title = request.POST.get('title')
         # Xử lý dữ liệu và lấy kết quả
-        result = (input_data)
+        result = title + abstract
         
             # # Tokenize and encode the text
         inputs = tokenizer(
-            input_data,
+            result,
             max_length=100,
             padding='max_length', 
             truncation=True,

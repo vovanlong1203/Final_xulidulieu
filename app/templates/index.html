@@ -11,9 +11,11 @@
 <body>
     <div class="container" >
         <form id="post-form" class="form-outline" style="margin-top: 50px;" >
-          {% csrf_token %}
-            <label class="form-label" for="textAreaExample">Input text research newspaper</label>
-            <textarea class="form-control" id="textarea" name="textarea" rows="4"></textarea>
+            {% csrf_token %}
+            <label class="form-label" for="textAreaExample">Input title</label>
+            <textarea class="form-control" id="title" name="title" rows="2"></textarea>
+            <label class="form-label" for="textAreaExample">Input abstract</label>
+            <textarea class="form-control" id="abstract" name="abstract" rows="4"></textarea>
             <button id="btnpredict" class="btnpredict" type="submit" style="margin-top: 50px;"> Predict </button>
             <br>
             <br>
@@ -25,18 +27,36 @@
               $('#post-form').submit(function (event) {
                   event.preventDefault(); 
   
-                  var inputData = $('#textarea').val();
+                  var title = $('#title').val();
+                  var abstract = $('#abstract').val();
                   var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
-                  if (inputData == "") return;
+                  if (title === "" || abstract === "") return;
+
+                  var loadingText = ".....";
+                  var index = 0;
+                  var interval = setInterval(function() {
+                    $('#text').text(loadingText.substring(0, index));
+                    index++;
+                    if (index > loadingText.length) {
+                        clearInterval(interval);
+                    }
+                  }, 100);
+
+                  var text = "";
+                  clearText = setInterval(() => {
+                    $('#text').text(text);
+                  },2000);
                   $.ajax({
                       type: 'POST',
                       url: '{% url "predict" %}', 
                       data: {
-                          'input_data': inputData,
+                          'abstract': abstract,
+                          'title':title,
                           'csrfmiddlewaretoken': csrfToken
                       },
                       success: function (response) {
                           // Khi nhận được phản hồi từ máy chủ
+                          clearInterval(interval);
                           $('#text').text('Category predict: ' + response.result);
                       },
                       error: function (xhr, errmsg, err) {
