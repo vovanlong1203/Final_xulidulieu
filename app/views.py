@@ -13,6 +13,12 @@ model.load_weights('tf_model.h5')
 def index(request):
     return render(request,'index.html')
 
+def form(request):
+    return render(request, 'form.html')
+
+def demo(request):
+    return render(request, 'demo.html')
+
 def predict(request):
     if request.method == 'POST':
         # Lấy dữ liệu từ yêu cầu POST
@@ -51,5 +57,4 @@ def predict(request):
         label_category = ['biology','chemistry','computer_science','mathematics','physics','economics']
         print("Predicted Labels:", label_category[index])
 
-        # Trả về kết quả dưới dạng JSON
         return JsonResponse({'result': label_category[index]})
