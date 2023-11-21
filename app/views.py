@@ -13,7 +13,6 @@ model.load_weights('tf_model.h5')
 def index(request):
     return render(request,'index.html')
 
-
 def predict(request):
     if request.method == 'POST':
         # Lấy dữ liệu từ yêu cầu POST
@@ -22,7 +21,7 @@ def predict(request):
         # Xử lý dữ liệu và lấy kết quả
         result = title + abstract
         
-            # # Tokenize and encode the text
+        # # Tokenize and encode the text
         inputs = tokenizer(
             result,
             max_length=100,
