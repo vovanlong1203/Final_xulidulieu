@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+  <div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" href="{% url 'home' %}">WEBPREDICT</a>
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'home' %}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'post' %}">Post</a>
+          </li>
+        </ul>
+        {% if user.is_authenticated %}
+        <form class="form-inline my-2 my-lg-0">
+          <a class="text-white-50" style="margin-right: 20px;"><span class="fa fa-user"></span> {{ request.user }}</a>
+          <a class="text-white-50" href="{% url 'handle_logout' %}"><span class="glyphicon glyphicon-log-in"></span> Logout</a>
+        </form>
+        {% else %}
+        <form class="form-inline my-2 my-lg-0">
+          <a href="{% url 'signup' %}"> <span class="btn btn-outline-success my-2 my-sm-0" type="submit" style="margin-right: 20px;">Sign Up</span> </a>
+          <a href="{% url 'login' %}"> <span class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</span> </a>
+        </form>
+        {% endif %}
+      </div>
+    </nav>
+  </div>
+
+
+
+  <div>
+    <footer class="text-center fixed-bottom bg-dark">
+        <!-- Copyright -->
+        <div class="text-white-50 text-center p-1">
+          © 2020 Copyright:
+          <a class="text-white-50" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+        </div>
+        <!-- Copyright -->
+      </footer>
+</div>
+</body>
+</html>

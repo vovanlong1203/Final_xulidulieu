@@ -1,0 +1,126 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+          <a class="navbar-brand" href="{% url 'home' %}">WEBPREDICT</a>
+          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'home' %}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'post' %}">Post</a>
+            </li>
+          </ul>
+          {% if user.is_authenticated %}
+          <form class="form-inline my-2 my-lg-0">
+            <a class="text-white-50" style="margin-right: 20px;"><span class="fa fa-user"></span> {{ request.user }}</a>
+            <a class="text-white-50" href="{% url 'handle_logout' %}"><span class="glyphicon glyphicon-log-in"></span> Logout</a>
+          </form>
+          {% else %}
+          <form class="form-inline my-2 my-lg-0">
+            <a href="{% url 'signup' %}"> <span class="btn btn-outline-success my-2 my-sm-0" type="submit" style="margin-right: 20px;">Sign Up</span> </a>
+            <a href="{% url 'login' %}"> <span class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</span> </a>
+          </form>
+          {% endif %}
+        </div>
+      </nav>
+    </div>
+
+
+    {% if request.user.is_authenticated %}
+    <div class="container" style="background: white; opacity: 0.8;">
+        <div>
+            <input class="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"  style="float: left; margin-right: 30px; margin-top: 10px;">
+            <a href="{% url 'add-post' %}"><button class="btn btn-primary" style="float: right; margin-right: 30px; margin-top: 10px;"> Add Post</button></a>
+        </div>
+        <br>
+        <div class="text-center" style="margin-top: 50px;">
+            <p class="text-info text-center" style="font-size: 20px;">Management Post</p>
+        </div>
+        <table class="table bg-light" style="background: white;">
+            <thead>
+              <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Abstract</th>
+                <th scope="col">Label</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% if post %}
+                {% for item in post reversed%}
+              <tr class="content-post">
+                <td class="title-post">{{item.title}}</td>
+                <td class="abstract-post">{{item.abstract}}</td>
+                <td class="label-post">{{item.label}}</td>
+              </tr>
+              {% endfor %}
+              {% else %}
+                <td></td>
+                <td></td>
+                <td></td>
+              {% endif %}
+            </tbody>
+        </table>
+      </div>
+      <script>
+ 
+        let input_search = document.querySelector(".search");
+        input_search.addEventListener('input', function() {
+        let value = input_search.value.toLowerCase();
+        let list_content = document.querySelectorAll(".content-post");
+
+        for (let content of list_content) {
+            let title = content.querySelector(".title-post").textContent.toLowerCase();
+            if (title.includes(value)) {
+                console.log("tim thay ", title)
+                content.classList.remove('d-none');
+            } else {
+                content.classList.add('d-none');
+            }
+        }
+       });
+      </script>
+      {% else %} 
+        
+        <div class="container" style="background: white; opacity: 0.8;">
+          <br>
+          <div class="text-center" style="margin-top: 20px;">
+              <p class="text-info text-center" style="font-size: 20px;">Management Post</p>
+          </div>
+        <p class="text-info text-center" style="font-size: 20px; margin-top: 100px ;margin-bottom: 100px;">No data</p>
+      {% endif %}
+
+
+    <div>
+        <footer class="text-center fixed-bottom bg-dark">
+            <!-- Copyright -->
+            <div class="text-white-50 text-center p-1">
+              © 2020 Copyright:
+              <a class="text-white-50" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+            </div>
+            <!-- Copyright -->
+          </footer>
+    </div>
+</body>
+</html>
